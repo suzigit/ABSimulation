@@ -1,0 +1,21 @@
+Trust-value-time-increase algorithm
+------------------------------------
+
+if (!ConsiderUpdateTrustValue) return 0
+if (NumberOfTimesIncreasedTotalTrust >= MaxNumberOfTimesToIncreaseTrustValue) return 0
+if (MinNumberOfDaysToIncreaseTrustValue has not passed since last trust value update) return 0
+
+MinAmount = min (TotalTrustValue,ReceivedKycVerifierTrustValue)
+IncreasedMinAmount = MinAmount*FactorIncreaseTrustValue 
+if (IncreasedMinAmount > TotalTrustValue) {
+	Def effectiveUsedFactor = increasedMinAmount/this.TotalTrustValue;
+    TotalTrustValue = IncreasedMinAmount
+    NumberOfTimesIncreasedTrustValue++
+    Set time of last trust value update to current moment
+    return effectiveUsedFactor
+}
+
+return 0
+
+
+Tem como o ReceivedKycVerifierTrustValue ser menor do que trust value? SIM, inicio por exemplo

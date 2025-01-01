@@ -1,0 +1,36 @@
+Cases for decision making of a Transaction Tx
+---------------------------------------------
+
+Def TransactionStatus = NotApproved
+TotalTxBasicUsersAnalyzed++
+
+//Case 1: Transaction Tx approved without need of dispositional trust and trust-value-time-increase mechanism
+If User.TrustScore >= Tx.RiskValue
+	TotalTxApprovedWithoutDRNorDT++;
+	SumTxApprovedWithoutDRNorDT += Tx.Value
+    TransactionStatus = Approved
+ 
+Else 
+
+    //Case 2: Transaction Tx not approved with user score, but approved due to trust-value-time-increase mechanism
+    If canConsiderUpdatedTrustValue() && User.TotalTrustValue >= Tx.RiskValue
+ 		TotalTxApprovedWithDR++
+		SumTxApprovedWithDR += Tx.Value
+        TransactionStatus = Approved
+
+    //Case 3: Transaction Tx not approved with user score, but approved due to dispositional trust 
+    If canApplyDispositionalTrust() && User.TrustScore+AdditionalTrustDueToDispositionalTrust >= Tx.RiskValue
+			TotalTxApprovedWithDT++
+			SumTxApprovedWithDT += Tx.Value
+            TransactionStatus = Approved 
+
+    //Case 4: Transaction Tx only approved due to dispositional trust AND trust-value-time-increase mechanism at the same time
+    If canConsiderUpdatedTrustValue() && canApplyDispositionalTrust()
+            && TransactionStatus == NotApproved AND User.TotalTrustValue+AdditionalTrustDueToDispositionalTrust >= Tx.RiskValue
+     		TotalTxApprovedWithDRAndDT++
+	    	SumTxApprovedWithDRAndDT += Tx.Value
+            TransactionStatus = Approved
+
+    If TransactionStatus == NotApproved
+        Case 5: Transaction Tx rejected
+

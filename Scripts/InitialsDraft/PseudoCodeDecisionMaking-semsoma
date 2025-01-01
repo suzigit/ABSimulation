@@ -1,0 +1,26 @@
+Cases for decision making of a Transaction Tx
+---------------------------------------------
+
+//Case 1: Transaction Tx approved without need of dispositional trust and trust-value-time-increase mechanism
+If User.TrustScore >= Tx.RiskValue
+    return Approved
+ 
+Else 
+
+    //Case 2: Transaction Tx not approved with user score, but approved due to trust-value-time-increase mechanism
+    If canConsiderUpdatedTrustValue() && User.TotalTrustValue >= Tx.RiskValue
+        return Approved
+
+    //Case 3: Transaction Tx not approved with user score, but approved due to dispositional trust 
+    If canApplyDispositionalTrust() && User.TrustScore+AdditionalTrustDueToDispositionalTrust >= Tx.RiskValue
+            return Approved 
+
+    //Case 4: Transaction Tx only approved due to dispositional trust AND trust-value-time-increase mechanism at the same time
+    If canConsiderUpdatedTrustValue() && canApplyDispositionalTrust()
+            AND User.TotalTrustValue+AdditionalTrustDueToDispositionalTrust >= Tx.RiskValue
+            return Approved
+
+
+return NotApproved
+
+Í

@@ -1,0 +1,16 @@
+Creating and sending a transaction TX and evaluating dynamic update of variables  
+--------------------------------------------------------------------------------
+
+Define TxValue = lognormal(MeanNormalTxValue,SigmaNormalTxValue,MinTxValue)
+TotalRiskTxValue = calculate TotalRiskValue of TxValue
+
+Define effectiveUsedFactor as the result of the trust-value-time-increase mechanism
+Do transaction-creation-parameters-increase using effectiveUsedFactor
+
+Defiine kycVerifierToGo = select KYC Verifier at random
+send message to kycVerifierToGo (self, kycVerifierToGo)
+NumberOfSentTransactions++
+
+
+
+

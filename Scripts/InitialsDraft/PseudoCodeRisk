@@ -1,0 +1,15 @@
+Calculating Risk Value of a Transaction with a value TxValue
+------------------------------------------------------------
+
+Define TxRiskValue
+if (TxValueMaxLimit <= FATFLimitFinInclusion)
+    TxRiskValue = 100/TxValueMaxLimit * TxValue 
+​else
+    if (TxValue <= FATFLimitFinInclusion)
+        TxRiskValue = RiskValueAtFATFLimit/FATFLimitFinInclusion * TxValue 
+    else
+        TxRiskValue = ((100-RiskValueAtFATFLimit)/(TxValueMaxLimit-FATFLimitFinInclusion))* TxValue +
+                      (RiskValueAtFATFLimit–((100-RiskValueAtFATFLimit)/(TxValueMaxLimit-FATFLimitFinInclusion))* FATFLimitFinInclusion)
+
+return TxRiskValue
+

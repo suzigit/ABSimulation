@@ -1,0 +1,24 @@
+Cases for decision making of a Transaction Tx
+---------------------------------------------
+
+Def ReasonOfApproval = 0 //Not approved
+TotalTxBasicUsersAnalyzed++
+
+//Case 1: Transaction Tx approved without need of dispositional trust and trust-value-time-increase mechanism
+If User.TrustScore >= Tx.RiskValue
+    ReasonOfApproval = 1
+ 
+//Case 2: Transaction Tx not approved with user score, but approved due to trust-value-time-increase mechanism
+Else If canConsiderUpdatedTrustValue() && User.TotalTrustValue >= Tx.RiskValue
+        ReasonOfApproval = 2
+
+//Case 3: Transaction Tx not approved with user score, but approved due to dispositional trust 
+Else If canApplyDispositionalTrust() && User.TrustScore+AdditionalTrustDueToDispositionalTrust >= Tx.RiskValue
+        ReasonOfApproval = 3 
+
+//Case 4: Transaction Tx only approved due to dispositional trust
+// AND trust-value-time-increase mechanism at the same time
+If canConsiderUpdatedTrustValue() && canApplyDispositionalTrust()
+        && User.TotalTrustValue+AdditionalTrustDueToDispositionalTrust >= Tx.RiskValue
+        ReasonOfApproval = 4
+

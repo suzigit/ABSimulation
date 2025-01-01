@@ -1,0 +1,7 @@
+Initialization of Dispositional Trust Variables for each Verifier
+-----------------------------------------------------------------
+
+Define DispositionalTrustScore as a sample of normal (MinDispoTrustRange, MaxDispoTrustRange, ShiftDispoTrust and StretchDispoTrust)
+Define AdditionalTrustDueToDispositionalTrust  = DispositionalTrustScore * FactorToAdditionalDispositionalTrust/100
+
+

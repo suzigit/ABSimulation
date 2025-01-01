@@ -1,0 +1,17 @@
+Transaction-creation-parameters-increase
+---------------------------------------------------------------------------------
+
+Premise: The trust value was updated with an effective factor effectiveRate>0
+
+Define potentialNewMeanValue = calculateNewValueMeanNormalTxValue(this.MeanNormalTxValue, this.SigmaNormalTxValue, effectiveRate)
+Define ActualPercentageOfReprovedTransactions = (this.NumberOfSentTransactions - this.NumberOfApprovedTransactions)/this.NumberOfSentTransactions
+Define ActualPercentageOfOutOfRangeTransactions = this.NumberOfOutOfRangeTransaction/this.NumberOfSentTransactions
+
+if (ConsiderUpdateTxGenerationParameter && potentialNewMeanValue > this.MeanNormalTxValue
+    && ActualPercentageOfReprovedTransactions < PercentageLimitOfReprovedTransactions
+    && ActualPercentageOfOutOfRangeTransactions < PercentageLimitOfOutOfRangeTransactions) {
+        this.MeanNormalTxValue = potentialNewMeanValue;            
+}
+
+
+

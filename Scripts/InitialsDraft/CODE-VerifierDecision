@@ -1,0 +1,45 @@
+this.Result = "notAccepted";
+TotalTxBasicUsersAnalyzed++;
+int reasonOfApproval = 0;
+
+
+//CASE 1 - nothing dynamic
+if(this.currentBasicUser.getInitialTrustValue()>this.currentBasicUser.TotalRiskTxValue) {
+	TotalTxApprovedWithoutDRNorDT++;
+	SumTxApprovedWithoutDRNorDT += this.currentBasicUser.TxValue;
+	this.Result = "accepted";
+	reasonOfApproval = 1;
+}
+
+//CASE 2 - trust value
+else if(canConsiderUpdatedTrustValue()
+	 && this.currentBasicUser.TotalTrustValue>this.currentBasicUser.TotalRiskTxValue) {
+		TotalTxApprovedWithDR++;
+		SumTxApprovedWithDR += this.currentBasicUser.TxValue;
+		this.Result = "accepted";
+		reasonOfApproval = 2;		
+}
+	
+//CASE 3 - dispositional trust
+else if (canApplyDispositionalTrust()
+     && this.currentBasicUser.getInitialTrustValue()+this.TotalToAddDueToDT>this.currentBasicUser.TotalRiskTxValue  ) {
+			TotalTxApprovedWithDT++;
+			SumTxApprovedWithDT += this.currentBasicUser.TxValue;
+			this.Result = "accepted";
+			reasonOfApproval = 3;	
+}
+
+//CASE 4 -- only with both cases together
+// If case 4, not possible to say what was the portion of each case since 
+// dispositional trust is tested first
+else if(canConsiderUpdatedTrustValue()
+	 && canApplyDispositionalTrust()
+	 && this.currentBasicUser.TotalTrustValue+this.TotalToAddDueToDT>this.currentBasicUser.TotalRiskTxValue) {
+		TotalTxApprovedWithDRAndDT++;
+		SumTxApprovedWithDRAndDT += this.currentBasicUser.TxValue;
+		this.Result = "accepted";
+		reasonOfApproval = 4;
+}
+
+insertInto(approvaltxs).columns (approvaltxs.verifiernumber, approvaltxs.agentnumber, approvaltxs.resultapproval, approvaltxs.valuetx, approvaltxs.timeexecution, approvaltxs.indexexecution, approvaltxs.agentscore, approvaltxs.agentvalue, approvaltxs.agentriskvalue, approvaltxs.adddispositionaltrust)
+.values(this.getId(), this.currentBasicUser.getId(), reasonOfApproval, this.currentBasicUser.TxValue, this.time(), System.identityHashCode(get_Main()), this.currentBasicUser.getInitialTrustValue(), this.currentBasicUser.TotalTrustValue, this.currentBasicUser.TotalRiskTxValue, this.TotalToAddDueToDT).execute();	
